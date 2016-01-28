@@ -27,7 +27,7 @@ class RedisController {
     @Resource(name = "redisTemplate")
     private RedisTemplate<String, byte[]> template;
 
-    @RequestMapping(path = "/rediscache", method = RequestMethod.POST)
+    @RequestMapping(path = "/cache", method = RequestMethod.POST)
     public void addToCache(@RequestParam String transactionId, @RequestParam String field,
             @RequestParam String value) {
         template.setKeySerializer(new StringRedisSerializer());
@@ -36,7 +36,7 @@ class RedisController {
         template.expire(transactionId, 30, TimeUnit.MINUTES);
     }
     
-    @RequestMapping(path = "/rediscache", method = RequestMethod.GET)
+    @RequestMapping(path = "/cache", method = RequestMethod.GET)
     public Object getFromCache(@RequestParam String transactionId, @RequestParam String field) {
         template.expire(transactionId, 30, TimeUnit.MINUTES);
         return template.opsForHash().get(transactionId, field);
